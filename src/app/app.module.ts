@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatCardModule } from '@angular/material/card'
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -30,6 +31,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatIconModule,
     MatTableModule,
     MatTabsModule,
+    MatCardModule,
     BrowserAnimationsModule
   ],
   providers: [
