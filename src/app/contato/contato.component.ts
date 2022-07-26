@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Contato } from '../shared/model/contato';
 import { ContatoService } from '../shared/service/contato.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms'
+import { MatDialog } from '@angular/material/dialog';
+import { ContatoDetalheComponent } from '../contato-detalhe/contato-detalhe.component';
 
 @Component({
   selector: 'app-contato',
@@ -12,11 +14,12 @@ export class ContatoComponent implements OnInit {
 
   formulario!: FormGroup;
   contatos: Contato[] = [];
-  colunas = ['id', 'nome', 'email', 'favorito'];
+  colunas = ['foto','id', 'nome', 'email', 'favorito'];
 
   constructor(
     private service: ContatoService,
-    private fb: FormBuilder 
+    private fb: FormBuilder,
+    private dialog: MatDialog 
     ) {}
 
   ngOnInit(): void {
@@ -37,7 +40,8 @@ export class ContatoComponent implements OnInit {
     
     this.service.save(contato).subscribe(
        resposta => {
-         this.contatos.push(resposta);
+        let lista: Contato[] = [... this.contatos, resposta]
+         this.contatos = lista;
        }
      );
   }
@@ -54,7 +58,26 @@ export class ContatoComponent implements OnInit {
     this.service.favoritar(contatos).subscribe(response => {
       contatos.favorito = !contatos.favorito;
     })
+  }
 
+  atualizarFoto(event: any, contatos: Contato){
+    const files = event.target.files;
+    if(files){
+      const foto = files[0];
+      const formData: FormData = new FormData();
+      formData.append("foto", foto);
+      this.service
+            .upload(contatos, formData)
+            .subscribe(response => this.listarContatos());
+    }
+  }
+
+  visualizarContato(contatos: Contato){
+    this.dialog.open( ContatoDetalheComponent, {
+      width: '400px',
+      height: '450px',
+      data: contatos
+    })
   }
 
 }

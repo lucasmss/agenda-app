@@ -11,6 +11,22 @@
         </ng-template>
         <mat-card>
             <table mat-table [dataSource]="contatos" class="full-width">
+
+                <ng-container matColumnDef="foto">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let contatos">
+                        <div *ngIf="contatos.foto">
+                            <img height="50" (click)="visualizarContato(contatos)"
+                                 width="50" 
+                                 src="data:image/png;base64,{{ contatos.foto }}"
+                            />
+                        </div>
+                        <div *ngIf="!contatos.foto">
+                            <input type="file" name="foto" (change)="atualizarFoto($event, contatos)" />
+                        </div>
+                    </td>
+                </ng-container>
+
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef> ID </th>
                     <td mat-cell *matCellDef="let contatos">{{contatos.id}}</td>

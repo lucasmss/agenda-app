@@ -18,11 +18,15 @@ export class ContatoService {
   }
 
   getListarContatos() : Observable<Contato[]> {
-    return this.http.get<Contato[]>(this.url)
+    return this.http.get<Contato[]>(this.url);
   }
 
   favoritar(contato: Contato) : Observable<Contato> {
     return this.http.patch<Contato>(`${this.url}/${contato.id}/favorito`, null);
+  }
+
+  upload(contato: Contato, formData: FormData) : Observable<any> {
+    return this.http.put(`${this.url}/${contato.id}/foto`, formData, { responseType : 'blob' });
   }
 
 }
